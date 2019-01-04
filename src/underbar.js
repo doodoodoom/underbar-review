@@ -201,7 +201,7 @@
   _.reduce = function(collection, iterator, accumulator) {
     if (accumulator === undefined) {
       accumulator = collection[0];
-      collection = collection.slice(1, collection.length);
+      collection = collection.slice(1);
     }
     
     _.each(collection, function(value) {
@@ -209,6 +209,7 @@
     } );
 
     return accumulator;
+    // reduce currently mishandles single value arrays, need to fix
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -226,13 +227,51 @@
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+    return _.reduce(collection, function(isTrue, value) { 
+      if (!isTrue) {
+        return isTrue;
+      }
+      if (iterator !== undefined) {
+        return Boolean(iterator(value));
+      } else {
+        return value;
+      }
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (collection.length === 0) {
+      return false;
+    }
+    if (_.every(collection, iterator)) {
+      return true;
+    }
+    return _.reduce(collection, function(isTrue, value) {
+      if (isTrue) {
+        return true;
+      }
+      if (iterator !== undefined) {
+        return true; //Boolean(iterator(value));
+      } else {
+        return value === true;
+      }
+      
+    }, false); 
+    // return _.reduce(collection, function(isFalse, value) {
+    //   if (!isFalse) {
+    //     return isFalse;
+    //   }
+    //   if (iterator !== undefined) {
+    //     return Boolean(iterator(value));
+    //   } else {
+    //     return value;
+    //   }
+    // }, false);
+
+    // is somehow returning non boolean values when it appears it can't possibly
   };
 
 
