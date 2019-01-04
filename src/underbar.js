@@ -109,17 +109,55 @@
 
     
   };
-
+  // [1, 4, 4, 65, 78]
   // Produce a duplicate-free version of the array.
+
   _.uniq = function(array, isSorted, iterator) {
+    var results = [];
+    for (var value of array) {
+      if (!results.includes(value)) {
+        results.push(value);
+      }
+    }
+    return results;
   };
 
+  // _.uniq = function(array, isSorted, iterator) {
+  //   var results = [];
+  //   if (isSorted) {
+  //     results.push(array[0]);
+
+  //     var curr, next;
+  //     for (var i = 1; i < array.length; i++) {
+  //       curr = array[i];
+
+  //       if (curr !== next) {
+  //         results.push(curr);
+  //         next = array[i + 1];
+  //       }
+  //     }
+  //   } else {
+  //     for (var value of array) {
+  //       if (!results.includes(value)) {
+  //         for (var result of results) {
+  //           results.push(value);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return results;
+  // };
+  
+  // [1, 4, 4, 65, 78]
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var results = [];
+    _.each(collection, function(value) { results.push(iterator(value)); });
+    return results;
   };
 
   /*
