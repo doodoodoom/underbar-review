@@ -39,7 +39,7 @@
   // last element.
   _.last = function(array, n) {
     if (n === undefined) {
-      return array[-1];
+      return array[array.length - 1];
     } else if (n > array.length) {
       return array;
     }
@@ -82,6 +82,15 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var filtered = [];
+
+    _.each(collection, function(value) {
+      if (test(value)) {
+        filtered.push(value);
+      }
+    });
+
+    return filtered;
   };
 
   // Return all elements of an array that don't pass a truth test.
